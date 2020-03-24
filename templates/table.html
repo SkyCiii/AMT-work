@@ -573,6 +573,7 @@
 
     function sendEditItemRequest(recordId) {
         const inputData = getPutInputData(recordId);
+        console.log(recordId);
         $.ajax({
             url: `${API_URL}/${recordId}`,
             method: 'PUT',
