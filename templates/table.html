@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AMT Table</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <style>
+        .on-search {
+            background-color: antiquewhite;
+        }
+    </style>
+</head>
+<body>
+    <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+            <h1 class="display-4">AMT Table</h1>
+            <p class="lead">homework for Ting-Yi</p>
+        </div>
+    </div>
+    <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+        <div class="btn-group mr-2 px-3 pb-3" role="group" aria-label="First group">
+            <button type="button" class="btn btn-success btnSearch" data-toggle="modal" data-target="#search-modal">
+                Search
+            </button>
+        </div>
+        <div class="btn-group mr-2 px-3 pb-3" role="group" aria-label="First group">
+            <button type="button" class="btn btn-secondary btnClear">
+                Clear
+            </button>
+        </div>
+        <div class="btn-group mr-2 px-3 pb-3" role="group" aria-label="Second group">
+            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#new-add-modal">
+                New Add
+            </button>
+        </div>
+        <div class="btn-group px-3 pb-3" role="group" aria-label="Third group">
+            <button type="button" class="btn btn-info">Export</button>
+        </div>
+    </div>
+
+    <!-- Search Modal -->
+    <div class="modal fade bd-example-modal-lg" id="search-modal" tabindex="-1" role="dialog" aria-labelledby="SearchModal" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <form id="search-form">
+                    <div class="modal-header bg-success">
+                        <h5 class="modal-title text-white" id="search-label">Search</h5>
+                        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-row">
+                            <div class="form-group col-md-4">
+                                <label for="recipient-name" class="col-form-label">Asset No.</label>
+                                <input type="text" class="form-control" id="search-asset-no" placeholder="Asset No.">
+                                <label for="search-location">Location</label>
+                                <select id="search-location" class="form-control">
+                                    <option selected>L1</option>
+                                    <option>L2</option>
+                                    <option>L3</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group col-md-4">
+                                <label for="message-text" class="col-form-label">TMC No.</label>
+                                <input type="text" class="form-control" id="search-tmc-no" placeholder="TMC No.">
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="message-text" class="col-form-label">Pallet ID</label>
+                                <input type="text" class="form-control" id="search-pallet-id" placeholder="Pallet ID">
+                                
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-success btnSubmit" data-dismiss="modal">Search</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- New Add Modal -->
+    <div class="modal fade bd-example-modal-lg" id="new-add-modal" tabindex="-1" role="dialog" aria-labelledby="NewAdd" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-danger">
+                    <h5 class="modal-title text-white" id="new-add-label">New Add</h5>
+                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form id="post-form">
+                    <div class="modal-body">
+                        <div class="form-row">
+                            <div class="form-group col-md-4">
+                                <label for="recipient-name" class="col-form-label">Asset No.</label>
+                                <input type="text" class="form-control" id="post-asset-no" placeholder="Asset No.">
+                                <label for="recipient-name" class="col-form-label">Name<abbr style="color: red">*</abbr></label>
+                                <input pattern=".{1,}" required title="1 characters minimum" type="text" class="form-control" id="post-name" placeholder="Name">
+                                <label for="recipient-name" class="col-form-label">SN</label>
+                                <input type="text" class="form-control" id="post-sn" placeholder="SN">
+                                <label for="recipient-name" class="col-form-label">Limitations</label>
+                                <input type="text" class="form-control" id="post-limitations" placeholder="Limitations">
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="message-text" class="col-form-label">TMC No.<abbr style="color: red">*</abbr></label>
+                                <input pattern=".{1,}" required title="1 characters minimum" type="text" class="form-control" id="post-tmc-no" placeholder="TMC No.">
+                                <label for="message-text" class="col-form-label">English Name</label>
+                                <input type="text" class="form-control" id="post-eng-name" placeholder="English Name">
+                                <label for="message-text" class="col-form-label">Model No.</label>
+                                <input type="text" class="form-control" id="post-model-no" placeholder="Model No.">
+                                <label for="location2" class="col-form-label">Location<abbr style="color: red">*</abbr></label>
+                                <select id="post-location" pattern=".{1,}" required title="1 characters minimum" class="form-control">
+                                    <option selected>L1</option>
+                                    <option>L2</option>
+                                    <option>L3</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="message-text" class="col-form-label">Pallet ID</label>
+                                <input type="text" class="form-control" id="post-pallet-id" placeholder="Pallet ID">
+                                <label for="message-text" class="col-form-label">Vendor</label>
+                                <input type="text" class="form-control" id="post-vendor" placeholder="Vendor">
+                                <label for="message-text" class="col-form-label">Size</label>
+                                <input type="text" class="form-control" id="post-size" placeholder="Size">
+                                <label for="message-text" class="col-form-label">Work Station</label>
+                                <input type="text" class="form-control" id="post-work-station" placeholder="Work Station">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-success">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <main class="p-3 table-responsive">
+        <table class="table table-hover">
+            <thead class="thead-light">
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Asset No.</th>
+                    <th scope="col">TMC No.</th>
+                    <th scope="col">Pallet ID</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">English name</th>
+                    <th scope="col">Vendor</th>
+                    <th scope="col">SN</th>
+                    <th scope="col">Model No.</th>
+                    <th scope="col">Size</th>
+                    <th scope="col">Limitations</th>
+                    <th scope="col">Location</th>
+                    <th scope="col">Work Station</th>
+                    <th scope="col">Edit</th>
+                    <th scope="col" class="text-center">-</th>
+                </tr>
+            </thead>
+            <tbody id="item-lists">
+            <!-- <tr>
+                    <th scope="row">1</th>
+                    <td >Mark</td>
+                    <td>Otto</td>
+                    <td>@mdo</td>
+                    <td>Mark</td>
+                    <td>Otto</td>
+                    <td>@mdo</td>
+                    <td>Mark</td>
+                    <td>Otto</td>
+                    <td>@mdo</td>
+                    <td>Mark</td>
+                    <td>Otto</td>
+                    <td>@mdo</td>
+                    <td class="text-center">
+                        <button class="btn">
+                            <img src="https://svgshare.com/i/JLZ.svg">
+                        </button>
+                    </td>
+                    <td class="a">
+                        <button class="btn">
+                            <img src="https://svgshare.com/i/JLi.svg">
+                        </button>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row">2</th>
+                    <td>Mark</td>
+                    <td>Otto</td>
+                    <td>@mdo</td>
+                    <td>Mark</td>
+                    <td>Otto</td>
+                    <td>@mdo</td>
+                    <td>Mark</td>
+                    <td>Otto</td>
+                    <td>@mdo</td>
+                    <td>Mark</td>
+                    <td>Otto</td>
+                    <td>@mdo</td>
+                    <td class="text-center">
+                        <button class="btn">
+                            <img src="https://svgshare.com/i/JLZ.svg">
+                        </button>
+                    </td>
+                    <td class="text-center">
+                        <button class="btn">
+                            <img src="https://svgshare.com/i/JLi.svg">
+                        </button>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row">3</th>
+                    <td>Mark</td>
+                    <td>Otto</td>
+                    <td>@mdo</td>
+                    <td>Mark</td>
+                    <td>Otto</td>
+                    <td>@mdo</td>
+                    <td>Mark</td>
+                    <td>Otto</td>
+                    <td>@mdo</td>
+                    <td>Mark</td>
+                    <td>Otto</td>
+                    <td>@mdo</td>
+                    <td class="text-center">
+                        <button class="btn">
+                            <img src="https://svgshare.com/i/JLZ.svg">
+                        </button>
+                    </td>
+                    <td class="remove">
+                        <button class="btn">
+                            <img src="https://svgshare.com/i/JLi.svg">
+                        </button>
+                    </td>
+                </tr> -->
+            </tbody>
+        </table>
+    </main>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+    crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    
+    <script>
+        const Debug_Mode = false;
+
+        const BASE_URL = window.location.origin;
+        const API_URL = BASE_URL + '/record';
+    
+        function preventReload(e) {
+            if (Debug_Mode) {
+                e.preventDefault();
+            }
+        }
+    
+        function generateDataHtml(data) {
+            let elementsHtml = '';
+            for (item of data) {
+                const element =
+                `
+                <tr data-record-id="${item['id']}">
+                    <th scope="row">${item['id']}</th>
+                    <td class="asset_num text-break">${item['asset_num']}</td>
+                    <td class="tmc_num text-break">${item['tmc_num']}</td>
+                    <td class="pallet_id text-break">${item['pallet_id']}</td>
+                    <td class="name text-break">${item['name']}</td>
+                    <td class="eng_name text-break">${item['eng_name']}</td>
+                    <td class="vendor text-break">${item['vendor']}</td>
+                    <td class="sn text-break">${item['sn']}</td>
+                    <td class="model_num text-break">${item['model_num']}</td>
+                    <td class="size text-break">${item['size']}</td>
+                    <td class="limitations text-break">${item['limitations']}</td>
+                    <td class="location text-break">${item['location']}</td>
+                    <td class="work_station text-break">${item['work_station']}</td>
+                    <td class="text-center">
+                        <button data-record-id="${item['id']}" class="btn btnEdit" type="button">
+                            <img src="https://svgshare.com/i/JLZ.svg">
+                        </button>
+                    </td>
+                    <td class="text-center">
+                        <button data-record-id="${item['id']}" class="btn btnRemove" type="button">
+                            <img src="https://svgshare.com/i/JLi.svg">
+                        </button>
+                    </td>
+                </tr>`;
+                elementsHtml += element;
+            }
+            return elementsHtml;
+        }
+    
+        function loadAccountData(data) {
+            const dataHtml = generateDataHtml(data);
+            $('#item-lists').append(dataHtml);
+        }
+    
+        function getItemsFromServer() {
+            $.ajax({
+                url: API_URL,
+                method: 'GET',
+                success: function (data) {
+                    loadAccountData(data)
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    console.log(xhr.status);
+                    console.log(thrownError);
+                }
+            });
+        }
+    
+        function getPostInputData() {
+            const assetNo = $('#post-asset-no').val();
+            const name = $('#post-name').val();
+            const sn = $("#post-sn").val();
+            const engName = $('#post-eng-name').val();
+            const limitations = $('#post-limitations').val();
+            const tmcNo = $('#post-tmc-no').val();
+            const location = $('#post-location').val();
+            const palletID = $('#post-pallet-id').val();
+            const vendor = $('#post-vendor').val();
+            const size = $('#post-size').val();
+            const workStation = $('#post-work-station').val();
+            const modelNum = $('#post-model-no').val();
+    
+            return {
+                'asset_num': assetNo,
+                'tmc_num': tmcNo,
+                'pallet_id': palletID,
+                'name': name,
+                'eng_name': engName,
+                'vendor': vendor,
+                'sn': sn,
+                'model_num': modelNum,
+                'size': size,
+                'limitations': limitations,
+                'location': location,
+                'work_station': workStation
+            }
+        }
+
+        function postItemToServer(inputData) {
+            $.ajax({
+                url: API_URL,
+                method: 'POST',
+                data: inputData,
+                success: function (data) {
+                    console.log(data);
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    console.log(xhr.status);
+                    console.log(thrownError);
+                }
+            });
+        }
+                
+        function getSearchInputData() {
+            const searchAssetNo = $('#search-asset-no').val();
+            const searchTMCNo = $('#search-tmc-no').val();
+            const searchLocation = $('#search-location').val();
+            const searchPalletID = $('#search-pallet-id').val();
+    
+            return {
+                'asset_num': searchAssetNo,
+                'tmc_num': searchTMCNo,
+                'pallet_id': searchPalletID,
+                'location': searchLocation
+            }
+        }
+
+        function searchInputData(data) {
+            const searchData = getSearchInputData();
+            for (item of data) {
+                if (!((searchData['asset_num'] != "" && searchData['asset_num'] != item['asset_num']) || (searchData['tmc_num'] != "" && searchData['tmc_num'] != item['tmc_num']) || (searchData['pallet_id'] != "" && searchData['pallet_id'] != item['pallet_id']) || (searchData['location'] != "" && searchData['location'] != item['location']))) {
+                    row = $(`tr[data-record-id='${item['id']}`);
+                    row.addClass("on-search")
+                }
+            }
+        }
+        
+        function clearSearchHistory(data) {
+            row = $("body").find('tr');
+            console.log(row);
+            row.removeClass("on-search")
+        }
+
+        function SearchItems() {
+            $.ajax({
+                url: API_URL,
+                method: 'GET',
+                success: function (data) {
+                    clearSearchHistory(data)
+                    searchInputData(data)
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    console.log(xhr.status);
+                    console.log(thrownError);
+                }
+            });
+        }
+
+    function showEditForm(recordId) {
+        const recordElement = $(`tr[data-record-id='${recordId}'`);
+        const oldAssetNum = recordElement.find('.asset_num').text()
+        const oldTMCNum = recordElement.find('.tmc_num').text()
+        const oldPalletID = recordElement.find('.pallet_id').text()
+        const oldName = recordElement.find('.name').text()
+        const oldEngName = recordElement.find('.eng_name').text()
+        const oldVendor = recordElement.find('.vendor').text()
+        const oldSN = recordElement.find('.sn').text()
+        const oldModelNum = recordElement.find('.model_num').text()
+        const oldSize = recordElement.find('.size').text()
+        const oldLimitations = recordElement.find('.limitations').text()
+        const oldLocation = recordElement.find('.location').text()
+        const oldWorkStation = recordElement.find('.work_station').text()
+        
+        const formHtml = 
+        `
+        <th scope="row">${recordId}</th>
+        <td class="asset_num text-break">
+            <input data-record-old-asset_num="${oldAssetNum}" type="text" aria-label="name" class="form-control" id="put-asset-no2" placeholder="Asset No." value=${oldAssetNum}>
+        </td>
+        <td class="tmc_num text-break">
+            <input data-record-old-tmc_num="${oldTMCNum}" pattern=".{1,}" required title="1 characters minimum" type="text" aria-label="name" class="form-control" id="put-tmc-no2" placeholder="TMC No." value=${oldTMCNum}>
+        </td>
+        <td class="pallet_id text-break">
+            <input data-record-old-pallet_id="${oldPalletID}" type="text" aria-label="name" class="form-control" id="put-pallet-id2" placeholder="Pallet ID" value=${oldPalletID}>
+        </td>
+        <td class="name text-break">
+            <input data-record-old-name="${oldName}" pattern=".{1,}" required title="1 characters minimum" type="text" aria-label="name" class="form-control" id="put-name" placeholder="Name" value=${oldName}>
+        </td>
+        <td class="eng_name text-break">
+            <input data-record-old-eng_name="${oldEngName}" type="text" aria-label="name" class="form-control" id="put-eng-name" placeholder="English Name" value=${oldEngName}>
+        </td>
+        <td class="vendor text-break">
+            <input data-record-old-vendor="${oldVendor}" type="text" aria-label="name" class="form-control" id="put-vendor" placeholder="Vendor" value=${oldVendor}>
+        </td>
+        <td class="sn text-break">
+            <input data-record-old-sn="${oldSN}" type="text" aria-label="name" class="form-control" id="put-sn" placeholder="SN" value=${oldSN}>
+        </td>
+        <td class="model_num text-break">
+            <input data-record-old-model_num="${oldModelNum}" type="text" aria-label="name" class="form-control" id="put-model-no" placeholder="Model No." value=${oldModelNum}>
+        </td>
+        <td class="size text-break">
+            <input data-record-old-size="${oldSize}" type="text" aria-label="name" class="form-control" id="put-size" placeholder="Size" value=${oldSize}>
+        </td>
+        <td class="limitations text-break">
+            <input data-record-old-limitations="${oldLimitations}" type="text" aria-label="name" class="form-control" id="put-limitations" placeholder="Limitations" value=${oldLimitations}>
+        </td>
+        <td class="location text-break">
+            <input data-record-old-location="${oldLocation}" pattern=".{1,}" required title="1 characters minimum" type="text" aria-label="name" class="form-control" id="put-location" placeholder="Location" value=${oldLocation}>
+        </td>
+        <td class="work_station text-break">
+            <input data-record-old-work_station="${oldWorkStation}" type="text" aria-label="name" class="form-control" id="put-work-station" placeholder="Work Station" value=${oldWorkStation}>
+        </td>
+        <td class="text-center d-flex">
+            <button data-record-id="${recordId}" class="btn btn-sm btn-success btnUpdate">O</button>
+            <button data-record-id="${recordId}" class="btn btn-sm btn-secondary btnCancel">X</button>
+        </td>
+        `;
+        recordElement.html(formHtml);
+        recordElement.addClass('on-edit')
+    }
+
+    function cancelEditForm(recordId) {
+        const recordElement = $(`tr[data-record-id='${recordId}'`);
+        const oldAssetNum = recordElement.find('#put-asset-no2').attr('data-record-old-asset_num');
+        const oldTMCNum = recordElement.find('#put-tmc-no2').attr('data-record-old-tmc_num');
+        const oldPalletID = recordElement.find('#put-pallet-id2').attr('data-record-old-pallet_id');
+        const oldName = recordElement.find('#put-name').attr('data-record-old-name');
+        const oldEngName = recordElement.find('#put-eng-name').attr('data-record-old-eng_name');
+        const oldVendor = recordElement.find('#put-vendor').attr('data-record-old-vendor');
+        const oldSN = recordElement.find('#put-sn').attr('data-record-old-sn');
+        const oldModelNum = recordElement.find('#put-model-no').attr('data-record-old-model_num');
+        const oldSize = recordElement.find('#put-size').attr('data-record-old-size');
+        const oldLimitations = recordElement.find('#put-limitations').attr('data-record-old-limitations');
+        const oldLocation = recordElement.find('#put-location').attr('data-record-old-location');
+        const oldWorkStation = recordElement.find('#put-work-station').attr('data-record-old-work_station');
+
+        const element =
+            `
+                <th scope="row">${recordId}</th>
+                <td class="asset_num">${oldAssetNum}</td>
+                <td class="tmc_num">${oldTMCNum}</td>
+                <td class="pallet_id">${oldPalletID}</td>
+                <td class="name">${oldName}</td>
+                <td class="eng_name">${oldEngName}</td>
+                <td class="vendor">${oldVendor}</td>
+                <td class="sn">${oldSN}</td>
+                <td class="model_num">${oldModelNum}</td>
+                <td class="size">${oldSize}</td>
+                <td class="limitations">${oldLimitations}</td>
+                <td class="location">${oldLocation}</td>
+                <td class="work_station">${oldWorkStation}</td>
+                <td class="text-center">
+                    <button data-record-id="${recordId}" class="btn btnEdit" type="button">
+                        <img src="https://svgshare.com/i/JLZ.svg">
+                    </button
+                </td>
+                <td class="text-center">
+                    <button data-record-id="${recordId}" class="btn btnRemove" type="button">
+                        <img src="https://svgshare.com/i/JLi.svg">
+                    </button>
+                </td>
+            `;
+        recordElement.html(element);
+        recordElement.removeClass('on-edit')
+    }
+
+    function getPutInputData(recordId) {
+        const recordElement = $(`tr[data-record-id='${recordId}'`);
+        const newAssetNum = recordElement.find('#put-asset-no2').val();
+        const newTMCNum = recordElement.find('#put-tmc-no2').val();
+        const newPalletID = recordElement.find('#put-pallet-id2').val();
+        const newName = recordElement.find('#put-name').val();
+        const newEngName = recordElement.find('#put-eng-name').val();
+        const newVendor = recordElement.find('#put-vendor').val();
+        const newSN = recordElement.find('#put-sn').val();
+        const newModelNum = recordElement.find('#put-model-no').val();
+        const newSize = recordElement.find('#put-size').val();
+        const newLimitations = recordElement.find('#put-limitations').val();
+        const newLocation = recordElement.find('#put-location').val();
+        const newWorkStation = recordElement.find('#put-work-station').val();
+        console.log(recordId);
+        const element =
+            `
+                <th scope="row">${recordId}</th>
+                <td class="asset_num">${newAssetNum}</td>
+                <td class="tmc_num">${newTMCNum}</td>
+                <td class="pallet_id">${newPalletID}</td>
+                <td class="name">${newName}</td>
+                <td class="eng_name">${newEngName}</td>
+                <td class="vendor">${newVendor}</td>
+                <td class="sn">${newSN}</td>
+                <td class="model_num">${newModelNum}</td>
+                <td class="size">${newSize}</td>
+                <td class="limitations">${newLimitations}</td>
+                <td class="location">${newLocation}</td>
+                <td class="work_station">${newWorkStation}</td>
+                <td class="text-center">
+                    <button data-record-id="${recordId}" class="btn btnEdit" type="button">
+                        <img src="https://svgshare.com/i/JLZ.svg">
+                    </button
+                </td>
+                <td class="text-center">
+                    <button data-record-id="${recordId}" class="btn btnRemove" type="button">
+                        <img src="https://svgshare.com/i/JLi.svg">
+                    </button>
+                </td>
+            `;
+        recordElement.html(element);
+        recordElement.removeClass('on-edit')
+
+        return {
+            id: recordId,
+            asset_num: newAssetNum,
+            tmc_num: newTMCNum,
+            pallet_id: newPalletID,
+            name: newName,
+            eng_name: newEngName,
+            vendor: newVendor,
+            sn: newSN,
+            model_num: newModelNum,
+            size: newSize,
+            limitations: newLimitations,
+            location: newLocation,
+            work_station: newWorkStation
+        }
+    }
+
+    function sendEditItemRequest(recordId) {
+        const inputData = getPutInputData(recordId);
+        $.ajax({
+            url: `${API_URL}/${recordId}`,
+            method: 'PUT',
+            data: inputData,
+            success: function (data) {
+                console.log(data);
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                console.log(xhr.status);
+                console.log(thrownError);
+            }
+        });
+    }
+
+    function sendRemoveItemRequest(recordId) {
+        $.ajax({
+            url: `${API_URL}/${recordId}`,
+            method: 'DELETE',
+            success: function (data) {
+                console.log(data);
+                if (!Debug_Mode) {
+                    location.reload();
+                }
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                console.log(xhr.status);
+                console.log(thrownError);
+            }
+        });
+    }
+
+getItemsFromServer()
+
+$('#post-form').submit(function (e) {
+    preventReload(e)
+    const inputData = getPostInputData();
+    if (inputData) {
+        postItemToServer(inputData);
+    }
+});
+
+$("body").delegate(".btnSubmit", "click", function (e) {
+    preventReload(e)
+    SearchItems();
+});
+
+$("body").delegate(".btnRemove", "click", function (e) {
+    const recordId = $(this).attr('data-record-id');
+    sendRemoveItemRequest(recordId);
+});
+
+$("body").delegate(".btnClear", "click", function (e) {
+    clearSearchHistory();
+});
+
+$("body").delegate(".btnEdit", "click", function (e) {
+    const recordId = $(this).attr('data-record-id');
+    // Prevent DBClick the example one
+    if (recordId) {
+        showEditForm(recordId)
+    }
+});
+
+$("body").delegate(".btnCancel", "click", function (e) {
+    const recordId = $(this).attr('data-record-id');
+    cancelEditForm(recordId)
+});
+
+$("body").delegate(".btnUpdate", "click", function (e) {
+    preventReload(e)
+    const recordId = $(this).attr('data-record-id');
+    sendEditItemRequest(recordId);
+});
+    </script>
+</body>
+</html>
