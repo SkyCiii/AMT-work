@@ -457,8 +457,8 @@
             <input data-record-old-work_station="${oldWorkStation}" type="text" aria-label="name" class="form-control" id="put-work-station" placeholder="Work Station" value=${oldWorkStation}>
         </td>
         <td class="text-center d-flex">
-            <button data-record-id="${recordId}" class="btn btn-sm btn-success btnUpdate">O</button>
-            <button data-record-id="${recordId}" class="btn btn-sm btn-secondary btnCancel">X</button>
+            <button type="button" data-record-id="${recordId}" class="btn btn-sm btn-success btnUpdate">O</button>
+            <button type="button" data-record-id="${recordId}" class="btn btn-sm btn-secondary btnCancel">X</button>
         </td>
         `;
         recordElement.html(formHtml);
