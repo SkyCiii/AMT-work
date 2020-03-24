@@ -1,5 +1,5 @@
 from flask import Flask, request, jsonify, render_template
-
+from sqlalchemy import asc
 from app import app, db
 from models import Record
 
@@ -43,7 +43,7 @@ def add_record():
 
 @app.route("/record", methods=['GET'])
 def get_records():
-    records = Record.query.all()
+    records = Record.query.order_by(asc(Record.id)).all()
     records_data = [
         {
             'id': record.id,
